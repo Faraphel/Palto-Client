@@ -1,10 +1,13 @@
 package com.example.palto
 
+import android.app.Activity
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+
+import java.net.URL
 
 
 class PaltoActivity : AppCompatActivity() {
@@ -12,7 +15,7 @@ class PaltoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_palto)
 
         // get the NFC Adapter
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -27,6 +30,12 @@ class PaltoActivity : AppCompatActivity() {
         if (!(this.nfcAdapter!!.isEnabled)) {
             Log.w("NFC", "NFC is not enabled")
         }
+
+        // TEST
+    /*
+        val url = URL("https://www.faraphel.fr/palto/api/auth/token/")
+        val connection = url.openConnection()
+        val auth_data = Json.decodeFromString(connection.content)*/
     }
 
     override fun onResume() {
