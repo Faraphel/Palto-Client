@@ -21,5 +21,9 @@
         android:id="@+id/itemFragment"
         android:name="com.example.palto.ItemFragment"
         android:label="fragment_item_list"
-        tools:layout="@layout/fragment_item_list" />
+        tools:layout="@layout/fragment_item_list" >
+        <action
+            android:id="@+id/action_itemFragment_to_ficheFragment"
+            app:destination="@id/ficheFragment" />
+    </fragment>
 </navigation>

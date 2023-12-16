@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.palto.databinding.FragmentLoginBinding
 
 import com.example.palto.R
@@ -49,6 +50,7 @@ class LoginFragment : Fragment() {
         val loginButton = binding.login
         val loadingProgressBar = binding.loading
 
+        //
         loginViewModel.loginFormState.observe(viewLifecycleOwner,
             Observer { loginFormState ->
                 if (loginFormState == null) {
@@ -71,7 +73,8 @@ class LoginFragment : Fragment() {
                     showLoginFailed(it)
                 }
                 loginResult.success?.let {
-                    updateUiWithUser(it)
+                    findNavController().navigate(R.id.action_loginFragment_to_itemFragment)
+                    //updateUiWithUser(it)
                 }
             })
 
@@ -103,6 +106,7 @@ class LoginFragment : Fragment() {
             false
         }
 
+        // Damien : Le setOnClickListener est là !
         loginButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
             loginViewModel.login(
@@ -112,12 +116,14 @@ class LoginFragment : Fragment() {
         }
     }
 
+    /*
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome) + model.displayName
         // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
     }
+    */
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         val appContext = context?.applicationContext ?: return
