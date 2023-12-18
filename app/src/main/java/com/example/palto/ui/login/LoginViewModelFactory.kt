@@ -2,8 +2,8 @@ package com.example.palto.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.palto.data.LoginDataSource
-import com.example.palto.data.LoginRepository
+import com.example.palto.data.network.ServerDataSource
+import com.example.palto.data.repository.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -16,7 +16,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
                 loginRepository = LoginRepository(
-                    dataSource = LoginDataSource()
+                    dataSource = ServerDataSource()
                 )
             ) as T
         }

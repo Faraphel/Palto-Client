@@ -1,32 +1,32 @@
-package com.example.palto.data
+package com.example.palto.data.repository
 
+import com.example.palto.data.Result
+import com.example.palto.data.network.ServerDataSource
 import com.example.palto.data.model.LoggedInUser
+import com.example.palto.data.model.Tokens
 
 /**
  * Class that requests authentication and user information from the remote data source and
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class LoginRepository(val dataSource: LoginDataSource) {
+class TokensRepository(val dataSource: ServerDataSource) {
 
-    // in-memory cache of the loggedInUser object
-    var user: LoggedInUser? = null
+    var tokens: Tokens? = null
         private set
 
+    /*
     val isLoggedIn: Boolean
         get() = user != null
+     */
 
     init {
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
-        user = null
+        tokens = null
     }
 
-    fun logout() {
-        user = null
-        dataSource.logout()
-    }
-
+    /*
     fun login(username: String, password: String): Result<LoggedInUser> {
         // handle login
         val result = dataSource.login(username, password)
@@ -37,10 +37,9 @@ class LoginRepository(val dataSource: LoginDataSource) {
 
         return result
     }
+    */
 
-    private fun setLoggedInUser(loggedInUser: LoggedInUser) {
-        this.user = loggedInUser
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
+    private fun setTokens(tokens: Tokens) {
+        this.tokens = tokens
     }
 }

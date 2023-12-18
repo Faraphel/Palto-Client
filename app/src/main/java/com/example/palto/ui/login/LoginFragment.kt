@@ -45,6 +45,7 @@ class LoginFragment : Fragment() {
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
+        val hostnameEditText = binding.hostname
         val usernameEditText = binding.username
         val passwordEditText = binding.password
         val loginButton = binding.login
@@ -57,6 +58,9 @@ class LoginFragment : Fragment() {
                     return@Observer
                 }
                 loginButton.isEnabled = loginFormState.isDataValid
+                loginFormState.hostnameError?.let {
+                    hostnameEditText.error = getString(it)
+                }
                 loginFormState.usernameError?.let {
                     usernameEditText.error = getString(it)
                 }
@@ -79,26 +83,25 @@ class LoginFragment : Fragment() {
             })
 
         val afterTextChangedListener = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // ignore
-            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // ignore
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
 
             override fun afterTextChanged(s: Editable) {
                 loginViewModel.loginDataChanged(
+                    hostnameEditText.text.toString(),
                     usernameEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
             }
         }
+        hostnameEditText.addTextChangedListener(afterTextChangedListener)
         usernameEditText.addTextChangedListener(afterTextChangedListener)
         passwordEditText.addTextChangedListener(afterTextChangedListener)
         passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(
+                    hostnameEditText.text.toString(),
                     usernameEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
@@ -110,6 +113,7 @@ class LoginFragment : Fragment() {
         loginButton.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
             loginViewModel.login(
+                hostnameEditText.text.toString(),
                 usernameEditText.text.toString(),
                 passwordEditText.text.toString()
             )

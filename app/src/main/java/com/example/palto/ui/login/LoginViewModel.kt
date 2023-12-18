@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import com.example.palto.data.LoginRepository
+import com.example.palto.data.repository.LoginRepository
 import com.example.palto.data.Result
 
 import com.example.palto.R
@@ -17,7 +17,10 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
+    fun login(
+        hostname: String,
+        username: String,
+        password: String) {
         // can be launched in a separate asynchronous job
         val result = loginRepository.login(username, password)
 
@@ -29,14 +32,23 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    fun loginDataChanged(username: String, password: String) {
-        if (!isUserNameValid(username)) {
+    fun loginDataChanged(
+        hostname: String,
+        username: String,
+        password: String) {
+        if (!isHostNameValid(hostname)) {
+            _loginForm.value = LoginFormState(hostnameError = R.string.invalid_hostname)
+        } else if (!isUserNameValid(username)) {
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password)) {
             _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
         } else {
             _loginForm.value = LoginFormState(isDataValid = true)
         }
+    }
+
+    private fun isHostNameValid(hostname: String): Boolean {
+        return hostname.isNotBlank()
     }
 
     // A placeholder username validation check
