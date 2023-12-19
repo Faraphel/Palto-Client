@@ -16,13 +16,16 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.example.palto.databinding.FragmentLoginBinding
 
 import com.example.palto.R
 
 class LoginFragment : Fragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private val loginViewModel: LoginViewModel by
+    navGraphViewModels (R.id.nav_graph) { LoginViewModelFactory() }
+
     private var _binding: FragmentLoginBinding? = null
 
     // This property is only valid between onCreateView and
@@ -37,13 +40,10 @@ class LoginFragment : Fragment() {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
 
         val hostnameEditText = binding.hostname
         val usernameEditText = binding.username
@@ -77,7 +77,7 @@ class LoginFragment : Fragment() {
                     showLoginFailed(it)
                 }
                 loginResult.success?.let {
-                    findNavController().navigate(R.id.action_loginFragment_to_itemFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_attendanceFragment)
                     //updateUiWithUser(it)
                 }
             })

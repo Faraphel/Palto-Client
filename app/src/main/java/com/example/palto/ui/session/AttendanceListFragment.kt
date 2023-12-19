@@ -1,4 +1,4 @@
-package com.example.palto
+package com.example.palto.ui.session
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.palto.placeholder.PlaceholderContent
+import com.example.palto.R
+import com.example.palto.ui.session.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
-class ItemFragment : Fragment() {
+class AttendanceListFragment : Fragment() {
 
     private var columnCount = 1
 
@@ -26,10 +27,11 @@ class ItemFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_item_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_attendance_list, container, false)
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -38,7 +40,7 @@ class ItemFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyItemRecyclerViewAdapter(PlaceholderContent.ITEMS)
+                adapter = MyAttendanceRecyclerViewAdapter(PlaceholderContent.ITEMS)
             }
         }
         return view
@@ -52,7 +54,7 @@ class ItemFragment : Fragment() {
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            ItemFragment().apply {
+            AttendanceListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }

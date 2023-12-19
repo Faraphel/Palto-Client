@@ -7,24 +7,15 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.palto.ui.login.LoginFragment"
-        android:label="fragment_login"
+        android:label="fragment._login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_itemFragment"
-            app:destination="@id/itemFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_in_left"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_in_left" />
+            android:id="@+id/action_loginFragment_to_attendanceFragment"
+            app:destination="@id/attendanceFragment" />
     </fragment>
     <fragment
-        android:id="@+id/itemFragment"
-        android:name="com.example.palto.ItemFragment"
-        android:label="fragment_item_list"
-        tools:layout="@layout/fragment_item_list" />
-    <fragment
-        android:id="@+id/sheetDetailFragment"
-        android:name="com.example.palto.ui.sheet.SheetDetailFragment"
-        android:label="fragment_sheet_detail"
-        tools:layout="@layout/fragment_sheet_detail" />
+        android:id="@+id/attendanceFragment"
+        android:name="com.example.palto.ui.session.AttendanceListFragment"
+        android:label="fragment_attendance_list"
+        tools:layout="@layout/fragment_attendance_list" />
 </navigation>
