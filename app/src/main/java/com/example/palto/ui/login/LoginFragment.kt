@@ -1,7 +1,6 @@
 package com.example.palto.ui.login
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import android.os.Bundle
@@ -11,9 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -24,7 +20,7 @@ import com.example.palto.R
 class LoginFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by
-    navGraphViewModels (R.id.nav_graph) { LoginViewModelFactory() }
+        navGraphViewModels(R.id.nav_graph) { LoginViewModelFactory() }
 
     private var _binding: FragmentLoginBinding? = null
 

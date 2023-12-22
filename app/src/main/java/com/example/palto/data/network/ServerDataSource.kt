@@ -12,36 +12,48 @@ class ServerDataSource {
 
     private var hostname: String? = null
 
-    fun requestToken(hostname: String, username: String, password: String): Result<Tokens> {
+    fun requestToken(
+        hostname: String,
+        username: String,
+        password: String
+    ): Result<Tokens> {
         try {
-            val tokens = Tokens()
-            return Result.Success()
-        } catch () {
-            return Result.Error()
-        }
-    }
-
-    fun refreshToken(): Result<Tokens> {
-
-    }
-
-    fun verifyToken(): Boolean {
-
-    }
-
-    fun login(hostname: String, username: String, password: String): Result<LoggedInUser> {
-        try {
-            /*
-            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
-            return Result.Success(fakeUser)
-            */
-            return
+            val tokens = Tokens(
+                refresh = "aa",
+                access = "bb"
+            )
+            return Result.Success(tokens)
         } catch (e: Throwable) {
             return Result.Error(IOException("Error logging in", e))
         }
     }
 
-    fun logout() {
-        // TODO: revoke authentication
+    fun refreshToken(current_tokens: Tokens): Result<Tokens> {
+        return Result.Success(current_tokens)
     }
+
+    fun verifyToken(): Boolean {
+        return true
+    }
+
+    fun login(
+        hostname: String,
+        username: String,
+        password: String
+    ): Result<LoggedInUser> {
+        try {
+            val fakeUser = LoggedInUser(
+                java.util.UUID.randomUUID().toString(),
+                "dede",
+                "Lucie",
+                "Doe",
+                "aa@free.fr",
+                )
+            return Result.Success(fakeUser)
+        } catch (e: Throwable) {
+            return Result.Error(IOException("Error logging in", e))
+        }
+    }
+
+    fun logout() { }
 }

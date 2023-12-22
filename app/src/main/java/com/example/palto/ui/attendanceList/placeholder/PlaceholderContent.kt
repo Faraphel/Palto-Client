@@ -1,4 +1,4 @@
-package com.example.palto.ui.session.placeholder
+package com.example.palto.ui.attendanceList.placeholder
 
 import java.util.ArrayList
 import java.util.HashMap

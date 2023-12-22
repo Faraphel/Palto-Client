@@ -14,8 +14,13 @@
             app:destination="@id/attendanceFragment" />
     </fragment>
     <fragment
+        android:id="@+id/sessionListFragment"
+        android:name="com.example.palto.ui.sessionList.SessionListFragment"
+        android:label="fragment_session_list"
+        tools:layout="@layout/fragment_session_list" />
+    <fragment
         android:id="@+id/attendanceFragment"
-        android:name="com.example.palto.ui.session.AttendanceListFragment"
+        android:name="com.example.palto.ui.attendanceList.AttendanceListFragment"
         android:label="fragment_attendance_list"
         tools:layout="@layout/fragment_attendance_list" />
 </navigation>

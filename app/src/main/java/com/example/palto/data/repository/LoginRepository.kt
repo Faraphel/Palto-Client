@@ -19,8 +19,6 @@ class LoginRepository(val dataSource: ServerDataSource) {
         get() = user != null
 
     init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
         user = null
     }
 
@@ -38,7 +36,7 @@ class LoginRepository(val dataSource: ServerDataSource) {
         val result = dataSource.login(hostname, username, password)
 
         if (result is Result.Success) {
-            setTokens(result.data)
+            setLoggedInUser(result.data)
         }
 
         return result
@@ -46,7 +44,5 @@ class LoginRepository(val dataSource: ServerDataSource) {
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
         this.user = loggedInUser
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
     }
 }
