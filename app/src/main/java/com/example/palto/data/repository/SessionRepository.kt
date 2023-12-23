@@ -5,6 +5,6 @@ import com.example.palto.data.network.ServerDataSource
 /**
  *
  */
-class AttendanceRepository(val dataSource: ServerDataSource) {
+class SessionRepository(val dataSource: ServerDataSource) {
     // private val cards
 }

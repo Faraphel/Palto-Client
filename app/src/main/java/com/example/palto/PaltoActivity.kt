@@ -1,13 +1,10 @@
 package com.example.palto
 
-import android.app.Activity
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-
-import java.net.URL
 
 
 class PaltoActivity : AppCompatActivity() {

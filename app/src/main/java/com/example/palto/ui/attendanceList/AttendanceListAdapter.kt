@@ -4,19 +4,22 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import com.example.palto.model.Card
 
-import com.example.palto.ui.attendanceList.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.palto.databinding.FragmentAttendanceItemBinding
 
 /**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
+ *
  */
-class AttendanceListAdapter(
-    private val values: List<PlaceholderItem>
-) : RecyclerView.Adapter<AttendanceListAdapter.ViewHolder>() {
+class AttendanceListAdapter :
+    ListAdapter<Card, AttendanceListAdapter.ViewHolder>(CardDiffCallback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
 
         return ViewHolder(
             FragmentAttendanceItemBinding.inflate(
@@ -28,20 +31,28 @@ class AttendanceListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        val item = getItem(position)
+        holder.cardId.text = item.id
+        //holder.contentView.text = item.content
     }
 
-    override fun getItemCount(): Int = values.size
+    inner class ViewHolder(
+        binding: FragmentAttendanceItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    inner class ViewHolder(binding: FragmentAttendanceItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
-
+        val cardId: TextView = binding.cardId
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + " '" + cardId.text + "'"
         }
+    }
+}
+
+object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
+    override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {
+        return oldItem.id == newItem.id
     }
 }

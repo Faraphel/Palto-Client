@@ -1,9 +1,7 @@
 package com.example.palto.data.repository
 
-import com.example.palto.data.Result
 import com.example.palto.data.network.ServerDataSource
-import com.example.palto.data.model.LoggedInUser
-import com.example.palto.data.model.Tokens
+import com.example.palto.model.Tokens
 
 /**
  * Class that requests authentication and user information from the remote data source and

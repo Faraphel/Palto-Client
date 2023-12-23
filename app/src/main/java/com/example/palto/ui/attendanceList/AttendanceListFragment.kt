@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.navGraphViewModels
 import com.example.palto.R
-import com.example.palto.ui.attendanceList.placeholder.PlaceholderContent
+import com.example.palto.databinding.FragmentAttendanceListBinding
 
 /**
  * A fragment representing a list of attendances.
@@ -20,14 +20,19 @@ class AttendanceListFragment : Fragment() {
         navGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_attendance_list, container, false)
-        if (view is RecyclerView) {
-            view.layoutManager = LinearLayoutManager(context)
-            view.adapter = AttendanceListAdapter(PlaceholderContent.ITEMS)
+        val binding = FragmentAttendanceListBinding.inflate(inflater, container, false)
+
+        val adapter = AttendanceListAdapter()
+        binding.list.adapter = adapter
+
+        attendanceListViewModel.cardsLiveData.observe(viewLifecycleOwner) {
+            it -> adapter.submitList(it)
         }
-        return view
+
+        return binding.root
     }
 }

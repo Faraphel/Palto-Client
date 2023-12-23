@@ -1,4 +1,4 @@
-package com.example.palto.data.model
+package com.example.palto.model
 
 import java.io.Serializable
 

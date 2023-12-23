@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import androidx.lifecycle.ViewModelProvider
 import com.example.palto.data.repository.LoginRepository
-import com.example.palto.data.Result
 
 import com.example.palto.R
 import com.example.palto.data.network.ServerDataSource

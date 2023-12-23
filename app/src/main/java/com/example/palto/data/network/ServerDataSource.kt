@@ -1,9 +1,10 @@
 package com.example.palto.data.network
 
 import com.example.palto.data.Result
-import com.example.palto.data.model.LoggedInUser
-import com.example.palto.data.model.Tokens
+import com.example.palto.model.LoggedInUser
+import com.example.palto.model.Tokens
 import java.io.IOException
+import java.util.UUID
 
 /**
  * Class that handles API calls.
@@ -43,7 +44,7 @@ class ServerDataSource {
     ): Result<LoggedInUser> {
         try {
             val fakeUser = LoggedInUser(
-                java.util.UUID.randomUUID().toString(),
+                UUID.randomUUID().toString(),
                 "dede",
                 "Lucie",
                 "Doe",
