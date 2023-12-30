@@ -24,8 +24,7 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -73,7 +72,7 @@ class LoginFragment : Fragment() {
                     showLoginFailed(it)
                 }
                 loginResult.success?.let {
-                    findNavController().navigate(R.id.action_loginFragment_to_attendanceFragment)
+                    //findNavController().navigate(R.id.action_loginFragment_to_attendanceFragment)
                     //updateUiWithUser(it)
                 }
             })

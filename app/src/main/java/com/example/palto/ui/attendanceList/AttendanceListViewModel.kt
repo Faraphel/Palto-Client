@@ -1,5 +1,7 @@
 package com.example.palto.ui.attendanceList
 
+import android.nfc.Tag
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,32 +9,41 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.palto.data.network.ServerDataSource
 import com.example.palto.data.repository.AttendanceRepository
 import com.example.palto.model.Card
-import kotlin.random.Random
 
+/**
+ * ViewModel of a session which has a list of attendances.
+ */
 class AttendanceListViewModel(
     private val attendanceRepository: AttendanceRepository
 ) : ViewModel() {
 
-    private val cardsList: MutableList<Card> = mutableListOf()
-    val cardsLiveData: LiveData<List<Card>> = MutableLiveData(cardsList)
+    val cardsLiveData: MutableLiveData<List<Card>> = MutableLiveData(emptyList())
 
-    fun insertCard(cardId: String) {
-        val card = Card(cardId)
-        cardsList.add(card)
+    fun insertCard(tag: Tag) {
+        val card = Card(
+            "0",
+            tag.id,
+            "tmp",
+            "tmp"
+        )
+        cardsLiveData.value = (cardsLiveData.value ?: emptyList()) + card
+        Log.d("NFC", "view model: A card has been had to the list")
     }
-}
 
-class AttendanceListViewModelFactory : ViewModelProvider.Factory {
+    /**
+     * ViewModel Factory.
+     */
+    companion object {
 
-    //@Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AttendanceListViewModel::class.java)) {
-            return AttendanceListViewModel(
-                attendanceRepository = AttendanceRepository(
-                    dataSource = ServerDataSource()
-                )
-            ) as T
+        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(
+                modelClass: Class<T>
+            ): T {
+                return AttendanceListViewModel(
+                    AttendanceRepository(ServerDataSource())
+                ) as T
+            }
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

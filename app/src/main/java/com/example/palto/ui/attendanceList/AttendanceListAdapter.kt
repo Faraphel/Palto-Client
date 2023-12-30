@@ -1,14 +1,13 @@
 package com.example.palto.ui.attendanceList
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.palto.model.Card
-
+import androidx.recyclerview.widget.RecyclerView
 import com.example.palto.databinding.FragmentAttendanceItemBinding
+import com.example.palto.model.Card
 
 /**
  *
@@ -30,9 +29,10 @@ class AttendanceListAdapter :
         )
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.cardId.text = item.id
+        holder.cardId.text = item.uid.toHexString()
         //holder.contentView.text = item.content
     }
 
