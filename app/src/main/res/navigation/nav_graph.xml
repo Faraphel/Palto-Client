@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/attendanceListFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.palto.ui.login.LoginFragment"
+        android:label="fragment._login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/sessionListFragment"
+        android:name="com.example.palto.ui.sessionList.SessionListFragment"
+        android:label="fragment_session_list"
+        tools:layout="@layout/fragment_session_list" />
+    <fragment
+        android:id="@+id/attendanceListFragment"
+        android:name="com.example.palto.ui.attendanceList.AttendanceListFragment"
+        android:label="fragment_attendance_list"
+        tools:layout="@layout/fragment_attendance_list" />
+</navigation>

@@ -1,48 +1,50 @@
 package com.example.palto
 
-import android.app.PendingIntent
-import android.content.Intent
-import android.content.IntentFilter
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import android.nfc.tech.IsoDep
-import android.nfc.tech.NdefFormatable
-import android.nfc.tech.NfcA
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 
 
-class MainActivity : AppCompatActivity() {
+class PaltoActivity : AppCompatActivity() {
+
     private var nfcAdapter: NfcAdapter? = null
+
+    private val paltoViewModel: PaltoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         // get the NFC Adapter
-        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
         // check if NFC is supported
-        if (this.nfcAdapter == null) {
+        if (nfcAdapter == null) {
             Log.e("NFC", "NFC is not supported")
             return
         }
 
         // check if NFC is disabled
-        if (!(this.nfcAdapter!!.isEnabled)) {
+        if (nfcAdapter?.isEnabled == false) {
             Log.w("NFC", "NFC is not enabled")
         }
+
+        setContentView(R.layout.activity_palto)
+        /*
+        val url = URL("https://www.faraphel.fr/palto/api/auth/token/")
+        val connection = url.openConnection()
+        val auth_data = Json.decodeFromString(connection.content)
+        */
     }
 
     override fun onResume() {
         super.onResume()
 
-        nfcAdapter!!.enableReaderMode(
+        nfcAdapter?.enableReaderMode(
             this,
-            this::processTag,
+            paltoViewModel.tagLiveData::postValue,
             NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
             null
         )
@@ -52,11 +54,11 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
 
         // disable the NFC discovery
-        this.nfcAdapter!!.disableReaderMode(this)
+        nfcAdapter?.disableReaderMode(this)
     }
 
     @OptIn(ExperimentalStdlibApi::class)
     fun processTag(tag: Tag) {
-        Log.d("NFC", "Tag ID : ${tag.id.toHexString()}")
+        Log.d("NFC", "Tag ID : " + tag.id.toHexString())
     }
 }
