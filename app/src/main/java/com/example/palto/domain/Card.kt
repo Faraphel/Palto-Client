@@ -1,5 +1,4 @@
-package com.example.palto.model
-import java.io.Serializable
+package com.example.palto.domain
 
 data class Card(
     val id: String,

@@ -1,4 +1,4 @@
-package com.example.palto.ui.attendanceList
+package com.example.palto.ui.session
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,22 +6,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.palto.databinding.FragmentAttendanceItemBinding
-import com.example.palto.model.Card
+import com.example.palto.databinding.FragmentSessionItemBinding
+import com.example.palto.domain.Card
 
 /**
- *
+ * A [ListAdapter] that can display [Card] items.
  */
-class AttendanceListAdapter :
-    ListAdapter<Card, AttendanceListAdapter.ViewHolder>(CardDiffCallback) {
+class SessionAdapter :
+    ListAdapter<Card, SessionAdapter.ViewHolder>(CardDiffCallback) {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            FragmentAttendanceItemBinding.inflate(
+            FragmentSessionItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -37,7 +33,7 @@ class AttendanceListAdapter :
     }
 
     inner class ViewHolder(
-        binding: FragmentAttendanceItemBinding
+        binding: FragmentSessionItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         val cardId: TextView = binding.cardId
