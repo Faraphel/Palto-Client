@@ -12,4 +12,6 @@
     <string name="invalid_password">Mot de passe invalide</string>
     <string name="login_failed">"Erreur de connexion !"</string>
     <string name="help_message">Identifiants Invalides</string>
+    <string name="create_session">Créer une session</string>
+    <string name="create_card">Créer une présence</string>
 </resources>

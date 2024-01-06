@@ -29,7 +29,6 @@ class SessionAdapter :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.cardId.text = item.uid.toHexString()
-        //holder.contentView.text = item.content
     }
 
     inner class ViewHolder(

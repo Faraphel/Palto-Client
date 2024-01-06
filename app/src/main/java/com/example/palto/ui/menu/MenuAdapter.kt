@@ -15,19 +15,6 @@ import com.example.palto.domain.Session
 class MenuAdapter :
     ListAdapter<Session, MenuAdapter.ViewHolder>(SessionDiffCallback) {
 
-        /*
-    class ViewHolder(binding: FragmentSessionItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
-        }
-    }
-         */
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             FragmentMenuItemBinding.inflate(
@@ -40,22 +27,20 @@ class MenuAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.idView.text = position.toString()
-        holder.contentView.text = item.id
+        holder.sessionId.text = item.id
     }
-
-    //override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(
         binding: FragmentMenuItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
+        val sessionId: TextView = binding.sessionId
         override fun toString(): String {
-            return super.toString() + " '" + idView.text + contentView.text + "'"
+            return super.toString() + " '" + sessionId.text + "'"
         }
     }
+
+    //override fun getItemCount(): Int = values.size
 }
 
 object SessionDiffCallback : DiffUtil.ItemCallback<Session>() {

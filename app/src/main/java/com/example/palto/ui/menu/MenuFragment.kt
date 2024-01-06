@@ -1,21 +1,22 @@
 package com.example.palto.ui.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
+import com.example.palto.R
 import com.example.palto.databinding.FragmentMenuListBinding
-import com.example.palto.databinding.FragmentSessionListBinding
 
 /**
  * A fragment representing a list of Sessions.
  */
 class MenuFragment : Fragment() {
 
-    private val menuViewModel: MenuViewModel by viewModels()
+    private val menuViewModel: MenuViewModel by
+        navGraphViewModels(R.id.nav_graph)
 
     private var _binding: FragmentMenuListBinding? = null
     // This property is only valid between onCreateView and onDestroyView
@@ -29,17 +30,16 @@ class MenuFragment : Fragment() {
         _binding = FragmentMenuListBinding.inflate(inflater, container, false)
 
         val adapter = MenuAdapter()
-        binding.menuList.adapter = MenuAdapter()
+        binding.menuList.adapter = adapter
         menuViewModel.sessions.observe(viewLifecycleOwner) {
-            Log.d("PALTO", "A session has been created")
             adapter.submitList(it)
         }
 
-        return binding.root
-    }
+        binding.createSession.setOnClickListener {
+            menuViewModel.createSession()
+            findNavController().navigate(R.id.action_menuFragment_to_sessionFragment)
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        menuViewModel.createSession()
+        return binding.root
     }
 }

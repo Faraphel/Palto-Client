@@ -41,14 +41,17 @@ class SessionFragment : Fragment() {
         val adapter = SessionAdapter()
         binding.sessionList.adapter = adapter
         sessionViewModel.cards.observe(viewLifecycleOwner) {
-            Log.d("NFC", "A card has been had to the list")
             adapter.submitList(it)
         }
 
         // Set the listener for a new NFC tag.
         nfcViewModel.tag.observe(viewLifecycleOwner) {
-            Log.d("NFC", "tag observer has been notified")
+            Log.d("NFC", "The tag observers has been notified.")
             sessionViewModel.insertCard(it)
+        }
+
+        binding.createCard.setOnClickListener {
+            //sessionViewModel.
         }
 
         return binding.root

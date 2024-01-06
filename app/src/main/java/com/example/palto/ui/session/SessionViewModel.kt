@@ -16,7 +16,7 @@ class SessionViewModel(
     private val attendanceRepository: AttendanceRepository
 ) : ViewModel() {
 
-    private val _cards: MutableLiveData<List<Card>> = MutableLiveData(emptyList())
+    private val _cards = MutableLiveData<List<Card>>(emptyList())
     val cards = _cards as LiveData<List<Card>>
 
     fun insertCard(tag: Tag) {
@@ -27,7 +27,7 @@ class SessionViewModel(
             "tmp"
         )
         _cards.value = (_cards.value ?: emptyList()) + card
-        Log.d("NFC", "view model: A card has been had to the list")
+        Log.d("PALTO", "SessionViewModel: a card has been added into the list.")
     }
 
     /**
