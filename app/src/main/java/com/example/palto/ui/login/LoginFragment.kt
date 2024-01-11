@@ -1,42 +1,68 @@
 package com.example.palto.ui.login
 
-import androidx.lifecycle.Observer
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.example.palto.databinding.FragmentLoginBinding
-
-import com.example.palto.R
+import com.example.palto.ui.UserViewModel
 
 class LoginFragment : Fragment() {
 
-    private val loginViewModel: LoginViewModel by
-        navGraphViewModels(R.id.nav_graph) { LoginViewModelFactory() }
+    // loginViewModel is used to update the login screen dynamically.
+    private val loginViewModel: LoginViewModel by viewModels()
 
-    private var _binding: FragmentLoginBinding? = null
+    // userViewModel is where the user is logged in, at the activity level.
+    private val userViewModel: UserViewModel by activityViewModels() { UserViewModel.Factory }
 
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentLoginBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        val navController = findNavController()
+
+        // Bind the login button.
+        binding.login.setOnClickListener {
+            binding.loading.visibility = View.VISIBLE
+            userViewModel.login(
+                binding.hostname.text.toString(),
+                binding.username.text.toString(),
+                binding.password.text.toString()
+            )
+        }
+
+        // Bind anonymous login clickable text.
+        binding.loginAnonymous.setOnClickListener {
+            userViewModel.loginAnonymous()
+        }
+
+        // On result of logging.
+        userViewModel.result.observe(viewLifecycleOwner) {
+            binding.loading.visibility = View.GONE
+            if (it.success) {
+                navController.popBackStack()
+            } else if (it.error != null) {
+                binding.loginError.text = "Exception : " + it.exception.toString()
+                Toast.makeText(activity, it.error, Toast.LENGTH_LONG).show()
+            }
+        }
+
         return binding.root
     }
 
+    /*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,23 +72,21 @@ class LoginFragment : Fragment() {
         val loginButton = binding.login
         val loadingProgressBar = binding.loading
 
-        //
-        loginViewModel.loginFormState.observe(viewLifecycleOwner,
-            Observer { loginFormState ->
-                if (loginFormState == null) {
-                    return@Observer
-                }
-                loginButton.isEnabled = loginFormState.isDataValid
-                loginFormState.hostnameError?.let {
-                    hostnameEditText.error = getString(it)
-                }
-                loginFormState.usernameError?.let {
-                    usernameEditText.error = getString(it)
-                }
-                loginFormState.passwordError?.let {
-                    passwordEditText.error = getString(it)
-                }
-            })
+        loginViewModel.loginFormState.observe(viewLifecycleOwner) {
+            if (it == null) {
+                return@Observer
+            }
+            loginButton.isEnabled = it.isDataValid
+            it.hostnameError?.let {
+                hostnameEditText.error = getString(it)
+            }
+            it.usernameError?.let {
+                usernameEditText.error = getString(it)
+            }
+            it.passwordError?.let {
+                passwordEditText.error = getString(it)
+            }
+        }
 
         loginViewModel.loginResult.observe(viewLifecycleOwner,
             Observer { loginResult ->
@@ -103,17 +127,8 @@ class LoginFragment : Fragment() {
             }
             false
         }
-
-        // Damien : Le setOnClickListener est là !
-        loginButton.setOnClickListener {
-            loadingProgressBar.visibility = View.VISIBLE
-            loginViewModel.login(
-                hostnameEditText.text.toString(),
-                usernameEditText.text.toString(),
-                passwordEditText.text.toString()
-            )
-        }
     }
+     */
 
     /*
     private fun updateUiWithUser(model: LoggedInUserView) {
@@ -122,15 +137,11 @@ class LoginFragment : Fragment() {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
     }
-    */
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+     */
 }

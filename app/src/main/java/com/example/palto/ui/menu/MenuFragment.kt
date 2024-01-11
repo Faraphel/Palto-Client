@@ -27,8 +27,20 @@ class MenuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMenuListBinding.inflate(inflater, container, false)
+        binding = FragmentMenuListBinding.inflate(inflater, container, false)
 
+        val navController = findNavController()
+
+        // Connect the user.
+        userViewModel.user.observe(viewLifecycleOwner) {
+            if (it != null) {
+                // Get sessions of the user from remote.
+            } else {
+                navController.navigate(R.id.loginFragment)
+            }
+        }
+
+        // Display the list of sessions.
         val adapter = MenuAdapter()
         binding.menuList.adapter = adapter
         menuViewModel.sessions.observe(viewLifecycleOwner) {

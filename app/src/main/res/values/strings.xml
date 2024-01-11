@@ -5,6 +5,7 @@
     <string name="prompt_username">Nom d’utilisateur</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Connexion</string>
+    <string name="login_anonymous_text">Connexion anonyme</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Bienvenue !"</string>
     <string name="invalid_hostname">Serveur inaccessible</string>
