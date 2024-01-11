@@ -1,4 +1,4 @@
-package com.example.palto.model
+package com.example.palto.domain
 import java.io.Serializable
 
 /**
@@ -7,4 +7,4 @@ import java.io.Serializable
 data class Tokens(
     val refresh: String,
     val access: String
-) : Serializable
+)
