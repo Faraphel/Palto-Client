@@ -15,4 +15,8 @@
     <string name="help_message">Identifiants Invalides</string>
     <string name="create_session">Créer une session</string>
     <string name="create_card">Créer une présence</string>
+    <string name="nouvelle_fiche">Nouvelle Fiche</string>
+    <string name="new_session_name_hint">Nom de la fiche</string>
+    <string name="new_session_button_create">Créer</string>
+    <string name="menu_item_logout">Déconnexion</string>
 </resources>

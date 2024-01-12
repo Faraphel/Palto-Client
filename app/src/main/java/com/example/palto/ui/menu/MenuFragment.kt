@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.palto.R
 import com.example.palto.databinding.FragmentMenuListBinding
+import com.example.palto.domain.Session
+import com.example.palto.ui.UserViewModel
 
 /**
  * A fragment representing a list of Sessions.
@@ -16,11 +20,13 @@ import com.example.palto.databinding.FragmentMenuListBinding
 class MenuFragment : Fragment() {
 
     private val menuViewModel: MenuViewModel by
-        navGraphViewModels(R.id.nav_graph)
+        navGraphViewModels(R.id.nav_graph) { MenuViewModel.Factory }
 
-    private var _binding: FragmentMenuListBinding? = null
+    private val userViewModel: UserViewModel by
+        activityViewModels() { UserViewModel.Factory }
+
     // This property is only valid between onCreateView and onDestroyView
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentMenuListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,17 +47,25 @@ class MenuFragment : Fragment() {
         }
 
         // Display the list of sessions.
-        val adapter = MenuAdapter()
+
+        // Create a new MenuAdapter (list) with the given function when clicking an item.
+        val adapter = MenuAdapter { adapterOnClick(it) }
         binding.menuList.adapter = adapter
+        // Link the adapter with the session list in the menuViewMode.
         menuViewModel.sessions.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
+        // Bind the add button.
         binding.createSession.setOnClickListener {
-            menuViewModel.createSession()
-            findNavController().navigate(R.id.action_menuFragment_to_sessionFragment)
+            navController.navigate(R.id.action_menuFragment_to_newSessionFragment)
         }
 
         return binding.root
+    }
+
+    private fun adapterOnClick(session: Session) {
+        val bundle = bundleOf("session" to session.id)
+        findNavController().navigate(R.id.action_menuFragment_to_sessionFragment, bundle)
     }
 }

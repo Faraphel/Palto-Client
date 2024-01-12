@@ -12,35 +12,39 @@ import com.example.palto.domain.Session
 /**
  * A [ListAdapter] that can display [Session] items.
  */
-class MenuAdapter :
+class MenuAdapter(private val onClick: (Session) -> Unit) :
     ListAdapter<Session, MenuAdapter.ViewHolder>(SessionDiffCallback) {
+    inner class ViewHolder(binding: FragmentMenuItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        private val sessionNameText: TextView = binding.sessionName
+        private var currentSession: Session? = null
+
+        init {
+            binding.root.setOnClickListener {
+                currentSession?.let {
+                    onClick(it)
+                }
+            }
+        }
+
+        fun bind(session: Session) {
+            currentSession = session
+            sessionNameText.text = session.name
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            FragmentMenuItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+        val binding = FragmentMenuItemBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.sessionId.text = item.id
+        holder.bind(item)
     }
 
-    inner class ViewHolder(
-        binding: FragmentMenuItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        val sessionId: TextView = binding.sessionId
-        override fun toString(): String {
-            return super.toString() + " '" + sessionId.text + "'"
-        }
-    }
-
-    //override fun getItemCount(): Int = values.size
+    override fun getItemCount() = currentList.size
 }
 
 object SessionDiffCallback : DiffUtil.ItemCallback<Session>() {
