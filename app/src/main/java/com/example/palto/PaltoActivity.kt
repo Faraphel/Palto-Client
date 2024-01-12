@@ -3,8 +3,14 @@ package com.example.palto
 import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.example.palto.databinding.ActivityPaltoBinding
 import com.example.palto.ui.NfcViewModel
 import com.example.palto.ui.UserViewModel
 
@@ -14,31 +20,65 @@ class PaltoActivity : AppCompatActivity() {
     private var nfcAdapter: NfcAdapter? = null
 
     private val nfcViewModel: NfcViewModel by viewModels()
-    private val userViewModel: UserViewModel by viewModels()
+
+    private val userViewModel: UserViewModel by viewModels() { UserViewModel.Factory }
+
+    private lateinit var binding: ActivityPaltoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // get the NFC Adapter
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        binding = ActivityPaltoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // check if NFC is supported
+        //
+        // Toolbar
+        //
+
+        // Set the toolbar as the app bar for the activity.
+        setSupportActionBar(binding.paltoToolbar)
+
+        // Configure the app bar
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.palto_nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.menuFragment, R.id.loginFragment
+            )
+        )
+        binding.paltoToolbar.setupWithNavController(navController, appBarConfiguration)
+
+        //
+        // NFC Adapter
+        //
+
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        // Check if NFC is supported (already checked in the app manifest).
         if (nfcAdapter == null) {
             Log.e("NFC", "NFC is not supported")
-            return
         }
-
-        // check if NFC is disabled
         if (nfcAdapter?.isEnabled == false) {
             Log.w("NFC", "NFC is not enabled")
         }
-
-        setContentView(R.layout.activity_palto)
     }
 
+    /**
+     * Specify the options menu for the Activity.
+     */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.palto_menu, menu)
+        return true
+    }
+
+    /**
+     * Just before the application is displayed.
+     */
     override fun onResume() {
         super.onResume()
 
+        // Begin to read NFC Cards.
         nfcAdapter?.enableReaderMode(
             this,
             nfcViewModel.tag::postValue,
@@ -47,17 +87,13 @@ class PaltoActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Just after the application has been quit.
+     */
     override fun onPause() {
         super.onPause()
 
-        // disable the NFC discovery
+        // Disable the NFC discovery.
         nfcAdapter?.disableReaderMode(this)
     }
-
-    /*
-    @OptIn(ExperimentalStdlibApi::class)
-    fun processTag(tag: Tag) {
-        Log.d("NFC", "Tag ID : " + tag.id.toHexString())
-    }
-     */
 }
