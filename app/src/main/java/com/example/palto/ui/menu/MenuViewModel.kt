@@ -5,14 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.palto.data.repository.TokenRepository
-import com.example.palto.data.repository.UserRepository
+import com.example.palto.domain.Attendance
 import com.example.palto.domain.Session
-import com.example.palto.ui.UserViewModel
 
+/**
+ * ViewModel for accessing all the sessions created.
+ */
 class MenuViewModel() : ViewModel() {
 
-    private var _sessions = MutableLiveData<List<Session>>(emptyList())
+    // A list of sessions.
+    private var _sessions = MutableLiveData<List<Session>>()
     val sessions: LiveData<List<Session>> = _sessions
 
     fun createSession(name: String) {
@@ -24,6 +26,14 @@ class MenuViewModel() : ViewModel() {
         )
         _sessions.value = list + session
         Log.d("Palto", "MenuViewModel: A session has been added into the list.")
+    }
+
+    fun getSession(id: Int): Session? {
+        return _sessions.value?.find { it.id == id }
+    }
+
+    fun setAttendanceListSession(id: Int, list: List<Attendance>) {
+        getSession(id)?.let { it.attendances = list }
     }
 
     companion object {

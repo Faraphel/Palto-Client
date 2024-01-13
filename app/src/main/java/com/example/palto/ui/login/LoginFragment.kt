@@ -8,22 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.palto.databinding.FragmentLoginBinding
-import com.example.palto.ui.UserViewModel
 
 class LoginFragment : Fragment() {
 
-    // loginViewModel is used to update the login screen dynamically.
-    private val loginViewModel: LoginViewModel by viewModels()
-
     // userViewModel is where the user is logged in, at the activity level.
-    private val userViewModel: UserViewModel by activityViewModels() { UserViewModel.Factory }
+    private val loginViewModel: LoginViewModel by activityViewModels() { LoginViewModel.Factory }
 
     private lateinit var binding: FragmentLoginBinding
 
-    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,7 +30,7 @@ class LoginFragment : Fragment() {
         // Bind the login button.
         binding.login.setOnClickListener {
             binding.loading.visibility = View.VISIBLE
-            userViewModel.login(
+            loginViewModel.login(
                 binding.hostname.text.toString(),
                 binding.username.text.toString(),
                 binding.password.text.toString()
@@ -45,16 +39,16 @@ class LoginFragment : Fragment() {
 
         // Bind anonymous login clickable text.
         binding.loginAnonymous.setOnClickListener {
-            userViewModel.loginAnonymous()
+            loginViewModel.loginAnonymous()
         }
 
         // On result of logging.
-        userViewModel.result.observe(viewLifecycleOwner) {
+        loginViewModel.result.observe(viewLifecycleOwner) {
             binding.loading.visibility = View.GONE
             if (it.success) {
                 navController.popBackStack()
             } else if (it.error != null) {
-                binding.loginError.text = "Exception : " + it.exception.toString()
+                binding.loginError.text = "Exception : ${it.exception.toString()}"
                 Toast.makeText(activity, it.error, Toast.LENGTH_LONG).show()
             }
         }

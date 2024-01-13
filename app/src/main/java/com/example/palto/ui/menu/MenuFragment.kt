@@ -12,7 +12,7 @@ import androidx.navigation.navGraphViewModels
 import com.example.palto.R
 import com.example.palto.databinding.FragmentMenuListBinding
 import com.example.palto.domain.Session
-import com.example.palto.ui.UserViewModel
+import com.example.palto.ui.login.LoginViewModel
 
 /**
  * A fragment representing a list of Sessions.
@@ -22,8 +22,8 @@ class MenuFragment : Fragment() {
     private val menuViewModel: MenuViewModel by
         navGraphViewModels(R.id.nav_graph) { MenuViewModel.Factory }
 
-    private val userViewModel: UserViewModel by
-        activityViewModels() { UserViewModel.Factory }
+    private val loginViewModel: LoginViewModel by
+        activityViewModels() { LoginViewModel.Factory }
 
     // This property is only valid between onCreateView and onDestroyView
     private lateinit var binding: FragmentMenuListBinding
@@ -38,7 +38,7 @@ class MenuFragment : Fragment() {
         val navController = findNavController()
 
         // Connect the user.
-        userViewModel.user.observe(viewLifecycleOwner) {
+        loginViewModel.user.observe(viewLifecycleOwner) {
             if (it != null) {
                 // Get sessions of the user from remote.
             } else {

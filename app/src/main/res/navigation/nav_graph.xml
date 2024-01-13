@@ -34,7 +34,16 @@
         android:id="@+id/sessionFragment"
         android:name="com.example.palto.ui.session.SessionFragment"
         android:label="Fiche de présence"
-        tools:layout="@layout/fragment_session_list" />
+        tools:layout="@layout/fragment_session_list" >
+        <action
+            android:id="@+id/action_sessionFragment_to_newStudentFragment"
+            app:destination="@id/newStudentFragment" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/newStudentFragment"
+        android:name="com.example.palto.ui.session.new_student.NewStudentFragment"
+        android:label="Nouvel étudiant"
+        tools:layout="@layout/fragment_new_student" />
 
 </navigation>

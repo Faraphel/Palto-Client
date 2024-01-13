@@ -7,47 +7,46 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.palto.databinding.FragmentSessionItemBinding
+import com.example.palto.domain.Attendance
 import com.example.palto.domain.Card
+import java.time.format.DateTimeFormatter
 
 /**
- * A [ListAdapter] that can display [Card] items.
+ * A [ListAdapter] that can display [Attendance] items.
  */
-class SessionAdapter :
-    ListAdapter<Card, SessionAdapter.ViewHolder>(CardDiffCallback) {
+class SessionAdapter : ListAdapter<Attendance, SessionAdapter.ViewHolder>(AttendanceDiffCallback) {
+
+
+    inner class ViewHolder(binding: FragmentSessionItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+        private val attendanceUsernameText: TextView = binding.attendanceUsername
+        private val attendanceDate: TextView = binding.attendanceDate
+
+        fun bind(attendance: Attendance) {
+            attendanceUsernameText.text = attendance.student.username
+            attendanceDate.text = attendance.date.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            FragmentSessionItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+        val binding = FragmentSessionItemBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     @OptIn(ExperimentalStdlibApi::class)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.cardId.text = item.uid.toHexString()
-    }
-
-    inner class ViewHolder(
-        binding: FragmentSessionItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        val cardId: TextView = binding.cardId
-        override fun toString(): String {
-            return super.toString() + " '" + cardId.text + "'"
-        }
+        holder.bind(item)
     }
 }
 
-object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
-    override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
+object AttendanceDiffCallback : DiffUtil.ItemCallback<Attendance>() {
+    override fun areItemsTheSame(oldItem: Attendance, newItem: Attendance): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {
+    override fun areContentsTheSame(oldItem: Attendance, newItem: Attendance): Boolean {
         return oldItem.id == newItem.id
     }
 }

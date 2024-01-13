@@ -11,8 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.palto.databinding.ActivityPaltoBinding
-import com.example.palto.ui.NfcViewModel
-import com.example.palto.ui.UserViewModel
+import com.example.palto.ui.CardViewModel
 
 
 class PaltoActivity : AppCompatActivity() {
@@ -20,8 +19,6 @@ class PaltoActivity : AppCompatActivity() {
     private var nfcAdapter: NfcAdapter? = null
 
     private val nfcViewModel: NfcViewModel by viewModels()
-
-    private val userViewModel: UserViewModel by viewModels() { UserViewModel.Factory }
 
     private lateinit var binding: ActivityPaltoBinding
 
@@ -81,7 +78,7 @@ class PaltoActivity : AppCompatActivity() {
         // Begin to read NFC Cards.
         nfcAdapter?.enableReaderMode(
             this,
-            nfcViewModel.tag::postValue,
+            nfcViewModel::setTag,
             NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
             null
         )
