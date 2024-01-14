@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.example.palto.ui.menu.MenuFragment"
-        android:label="Menu Palto"
+        android:label="Menu"
         tools:layout="@layout/fragment_menu_list" >
         <action
             android:id="@+id/action_menuFragment_to_sessionFragment"
