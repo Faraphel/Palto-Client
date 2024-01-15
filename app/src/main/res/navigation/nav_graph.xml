@@ -3,20 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/attendanceListFragment">
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.example.palto.ui.menu.MenuFragment"
+        android:label="Menu"
+        tools:layout="@layout/fragment_menu_list" >
+        <action
+            android:id="@+id/action_menuFragment_to_sessionFragment"
+            app:destination="@id/sessionFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_newSessionFragment"
+            app:destination="@id/newSessionFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.palto.ui.login.LoginFragment"
-        android:label="fragment._login"
+        android:label="Connexion"
         tools:layout="@layout/fragment_login" />
+
     <fragment
-        android:id="@+id/sessionListFragment"
-        android:name="com.example.palto.ui.sessionList.SessionListFragment"
-        android:label="fragment_session_list"
-        tools:layout="@layout/fragment_session_list" />
+        android:id="@+id/newSessionFragment"
+        android:name="com.example.palto.ui.menu.new_session.NewSessionFragment"
+        android:label="Nouvelle fiche"
+        tools:layout="@layout/fragment_new_session"/>
+
     <fragment
-        android:id="@+id/attendanceListFragment"
-        android:name="com.example.palto.ui.attendanceList.AttendanceListFragment"
-        android:label="fragment_attendance_list"
-        tools:layout="@layout/fragment_attendance_list" />
+        android:id="@+id/sessionFragment"
+        android:name="com.example.palto.ui.session.SessionFragment"
+        android:label="Fiche de présence"
+        tools:layout="@layout/fragment_session_list" >
+        <action
+            android:id="@+id/action_sessionFragment_to_newStudentFragment"
+            app:destination="@id/newStudentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newStudentFragment"
+        android:name="com.example.palto.ui.session.new_student.NewStudentFragment"
+        android:label="Nouvel étudiant"
+        tools:layout="@layout/fragment_new_student" />
+
 </navigation>

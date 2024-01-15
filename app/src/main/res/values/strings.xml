@@ -5,11 +5,23 @@
     <string name="prompt_username">Nom d’utilisateur</string>
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Connexion</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="login_anonymous_text">Connexion anonyme</string>
+    <string name="action_sign_in_short">Connexion</string>
     <string name="welcome">"Bienvenue !"</string>
     <string name="invalid_hostname">Serveur inaccessible</string>
     <string name="invalid_username">Nom d’utilisateur non valide</string>
     <string name="invalid_password">Mot de passe invalide</string>
     <string name="login_failed">"Erreur de connexion !"</string>
     <string name="help_message">Identifiants Invalides</string>
+    <string name="create_session">Créer une session</string>
+    <string name="create_card">Créer une présence</string>
+    <string name="nouvelle_fiche">Nouvelle Fiche</string>
+    <string name="new_session_name_hint">Nom de la fiche</string>
+    <string name="new_session_button_create">Créer</string>
+    <string name="menu_item_logout">Déconnexion</string>
+    <string name="new_student_button_create">Ajouter</string>
+    <string name="new_student_name">Nom de l’étudiant</string>
+    <string name="new_student_card_id_text">ID Carte : Pas de carte</string>
+    <string name="session_user_already_added">L’étudiant %1$s existe déjà dans la liste !\n</string>
+    <string name="session_user_added">L’étudiant %1$s a été ajouté</string>
 </resources>
