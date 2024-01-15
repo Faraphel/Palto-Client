@@ -1,9 +1,10 @@
 <resources>
     <style name="Base.Theme.Palto" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorAccent">@color/colorSecondary</item>
-
         <item name="android:textSize">24sp</item>
+
         <item name="floatingActionButtonStyle">@style/actionButton</item>
     </style>
 
